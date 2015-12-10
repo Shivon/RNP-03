@@ -33,7 +33,6 @@ public class Werkzeug {
         inFromServer = new BufferedReader(new InputStreamReader(_socket.getInputStream(),  "UTF-8"));
         registriereSend();
         registriereLogin();
-        // registriereLogout();
         loggedIn = false;
     }
     public synchronized void setLoggedIn(boolean loggedIn){
@@ -61,27 +60,6 @@ public class Werkzeug {
         });
     }
 
-//     public void registriereLogout(){
-//         _gui.getLogout().addActionListener(new ActionListener() {
-//             @Override
-//             public void actionPerformed(ActionEvent e) {
-//                 if(loggedIn){
-//                         try {
-//                             writeToServer("/quit");
-//                                /*Textfeld leeren*/
-//                             _gui.getWritingField().setText("");
-//                         } catch (IOException e1) {
-//                             e1.printStackTrace();
-//                         }
-//                         loggedIn = false;
-//                     }
-//                 else{
-//                     throwLoginFirstException();
-//                 }
-//             }
-//         });
-//     }
-
 
     public void registriereSend() {
         _gui.getSend().addActionListener(new ActionListener() {
@@ -92,18 +70,6 @@ public class Werkzeug {
                 if (!_gui.getWritingField().getText().isEmpty()) {
                     /* Text aus Textfeld lesen, an Server senden*/
 			_sentence = _gui.getWritingField().getText();
-//                     if(loggedIn) {
-//                         try {
-//                             writeToServer(".msg:" + _sentence);
-//                                /*Textfeld leeren*/
-//                             _gui.getWritingField().setText("");
-//                         } catch (IOException e1) {
-//                             writeInChatArea("FEHLER: konnte nicht abgeschickt werden");
-//                         }
-//                     }
-//                     else{
-//                         throwLoginFirstException();
-//                     }
 			try {
                             writeToServer(".msg:" + _sentence);
                                /*Textfeld leeren*/
@@ -133,8 +99,9 @@ public class Werkzeug {
         System.out.println("TCP Client has sent the message: " + request);
     }
 
-    public void writeInMemberField(String member) throws IOException{
-        _gui.getMemberField().setText(member);
+    public void writeInMemberField(String members) throws IOException{
+        members = members.replaceAll(Pattern.quote(";"), "\n");
+        _gui.getMemberField().setText(members);
     }
 
     public void writeInWritingField(String message){

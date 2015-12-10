@@ -44,19 +44,11 @@ public class NachrichtenErhaltenThread extends  Thread {
                         _ui.writeInWritingField("Vergeben, bitte anderen Usernamen angeben: ");
                         _ui.throwUserNameNotAvailableException();
                     }
-//                     else if (sentence.startsWith("/noUserName")){
-//                         _ui.writeInWritingField("Bitte Usernamen angeben: ");
-//                         _ui.throwNoUserNameException();
-//                     }
-//                     else if(sentence.startsWith("/alreadyLoggedIn")){
-//                         _ui.throwLogoutFirstException();
-//                     }
                     else if (sentence.startsWith(".ack")){
                         _ui.setLoggedIn(true);
                         _ui.writeInWritingField("");
                         System.out.println("HALLO TCP Client got from Server: " + sentence);
                          sentence = sentence.replaceFirst(Pattern.quote(".ack"), "");
-//                         _ui.writeToServer("/enterChatroom" + sentence);
                     }
                 }
                 while (!this.isInterrupted() && _ui.isLoggedIn()) {
@@ -75,16 +67,7 @@ public class NachrichtenErhaltenThread extends  Thread {
                         _ui.writeInChatArea(sentence);
                         System.out.println("TCP Client got from Server: " + sentence);
                     }
-//                     else if (sentence.startsWith("/enterChatroom")){
-//                         sentence = sentence.replaceFirst(Pattern.quote("/enterChatroom"), "");
-//                         _ui.writeInChatArea(sentence + "  entered the chatroom.");
-//                         _ui.writeToServer(".clients:");
-//                     }
-//                     else if (sentence.startsWith("/memberLeft")){
-//                         sentence = sentence.replaceFirst(Pattern.quote("/memberLeft"), "");
-//                         _ui.writeInChatArea(sentence + " left the chatroom");
-//                         _ui.writeToServer(".clients:");
-//                     }
+
             /* Socket-Streams schliessen --> Verbindungsabbau */
                 }
             _socket.close();
