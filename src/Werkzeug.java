@@ -33,7 +33,7 @@ public class Werkzeug {
         inFromServer = new BufferedReader(new InputStreamReader(_socket.getInputStream(),  "UTF-8"));
         registriereSend();
         registriereLogin();
-        registriereLogout();
+        // registriereLogout();
         loggedIn = false;
     }
     public synchronized void setLoggedIn(boolean loggedIn){
@@ -48,7 +48,7 @@ public class Werkzeug {
                     _sentence = _gui.getWritingField().getText();
                     _sentence = _sentence.replaceFirst(Pattern.quote("Bitte Usernamen angeben: "), "");
                     try {
-                        writeToServer("/login" + _sentence);
+                        writeToServer(_sentence);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -61,26 +61,26 @@ public class Werkzeug {
         });
     }
 
-    public void registriereLogout(){
-        _gui.getLogout().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(loggedIn){
-                        try {
-                            writeToServer("/quit");
-                               /*Textfeld leeren*/
-                            _gui.getWritingField().setText("");
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                        loggedIn = false;
-                    }
-                else{
-                    throwLoginFirstException();
-                }
-            }
-        });
-    }
+//     public void registriereLogout(){
+//         _gui.getLogout().addActionListener(new ActionListener() {
+//             @Override
+//             public void actionPerformed(ActionEvent e) {
+//                 if(loggedIn){
+//                         try {
+//                             writeToServer("/quit");
+//                                /*Textfeld leeren*/
+//                             _gui.getWritingField().setText("");
+//                         } catch (IOException e1) {
+//                             e1.printStackTrace();
+//                         }
+//                         loggedIn = false;
+//                     }
+//                 else{
+//                     throwLoginFirstException();
+//                 }
+//             }
+//         });
+//     }
 
 
     public void registriereSend() {
@@ -91,19 +91,27 @@ public class Werkzeug {
 
                 if (!_gui.getWritingField().getText().isEmpty()) {
                     /* Text aus Textfeld lesen, an Server senden*/
-                    _sentence = _gui.getWritingField().getText();
-                    if(loggedIn) {
-                        try {
-                            writeToServer("/message" + _sentence);
+			_sentence = _gui.getWritingField().getText();
+//                     if(loggedIn) {
+//                         try {
+//                             writeToServer(".msg:" + _sentence);
+//                                /*Textfeld leeren*/
+//                             _gui.getWritingField().setText("");
+//                         } catch (IOException e1) {
+//                             writeInChatArea("FEHLER: konnte nicht abgeschickt werden");
+//                         }
+//                     }
+//                     else{
+//                         throwLoginFirstException();
+//                     }
+			try {
+                            writeToServer(".msg:" + _sentence);
                                /*Textfeld leeren*/
                             _gui.getWritingField().setText("");
                         } catch (IOException e1) {
                             writeInChatArea("FEHLER: konnte nicht abgeschickt werden");
                         }
-                    }
-                    else{
-                        throwLoginFirstException();
-                    }
+
                         System.out.println("in der GUI" + _sentence);
 
                 } else {
